@@ -37,7 +37,7 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
 
             # Delete backend stack
-            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>    
+            aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
 jobs:
   build-frontend:
     docker:
@@ -83,7 +83,7 @@ jobs:
             cd frontend
             npm install
             npm audit fix --force --audit-level=critical
-            
+
   build-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -142,7 +142,7 @@ jobs:
               --template-file .circleci/files/backend.yml \
               --tags project=your-tag \
               --stack-name "your back-end stack name with workflow id" \
-              --parameter-overrides ID="your workflow id"  
+              --parameter-overrides ID="your workflow id"
       - run:
           name: Ensure front-end infrastructure exist
           command: |
@@ -150,7 +150,7 @@ jobs:
               --template-file .circleci/files/frontend.yml \
               --tags project=your-tag \
               --stack-name "your front-end stack name with workflow id" \
-              --parameter-overrides ID="your workflow id"  
+              --parameter-overrides ID="your workflow id"
       - run:
           name: Add back-end ip to ansible inventory
           command: |
@@ -164,7 +164,26 @@ jobs:
           root: ~/
           paths:
             - project/.circleci/ansible/inventory.txt
-      - destroy-environment  
+      - destroy-environment
+
+  configure-infrastructure:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - install_ansible
+      - install_awscli
+      - add_ssh_keys:
+          fingerprints: ["39:7b:09:c3:07:e8:2b:ce:ee:7c:5f:bc:4b:a2:70:f0"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run configure server ansible playbook
+          command: |
+            cd .circleci/ansible
+            cat inventory.txt
+
+            ansible-playbook -i inventory.txt configure-server.yml
 
 workflows:
   default:
@@ -184,3 +203,5 @@ workflows:
           filters:
             branches:
               only: [master]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
