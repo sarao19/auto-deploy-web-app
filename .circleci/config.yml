@@ -378,7 +378,7 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-cleanup:
+  cleanup:
     docker:
       - image: cimg/python:3.10  
     steps:
@@ -436,4 +436,6 @@ workflows:
           requires: [run-migrations, deploy-frontend, deploy-backend]
       - cloudfront-update:
           requires: [run-migrations, deploy-frontend, deploy-backend, smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
 
