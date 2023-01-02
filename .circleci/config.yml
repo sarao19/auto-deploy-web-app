@@ -383,6 +383,7 @@ jobs:
       - image: cimg/python:3.10  
     steps:
       - checkout
+      - install_awscli
       - run:
           name: Get old stack workflow id
           command: |
