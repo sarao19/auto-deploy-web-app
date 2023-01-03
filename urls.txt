@@ -1,5 +1,5 @@
 URL01 https://github.com/sarao19/auto-deploy-web-app
-URL02 http://udapeople-15edaea.s3-website-us-east-1.amazonaws.com/
+URL02 http://udapeople-0d267b5.s3-website-us-east-1.amazonaws.com
 URL03 http://d3bku21ytkmuck.cloudfront.net
-URL04 http://34.192.56.220:3030/api/status
-URL05 http://ec2-34-230-38-19.compute-1.amazonaws.com:9090/
+URL04 http://3.90.119.94:3030/api/status
+URL05 http://ec2-34-201-107-254.compute-1.amazonaws.com:9090/
