@@ -435,6 +435,6 @@ workflows:
           requires: [run-migrations, deploy-frontend, deploy-backend]
       - cloudfront-update:
           requires: [run-migrations, deploy-frontend, deploy-backend, smoke-test]
-      # - cleanup:
-      #     requires: [cloudfront-update]
+      - cleanup:
+          requires: [cloudfront-update]
 
